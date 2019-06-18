@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinformCalculator
 {
     public partial class Form1 : Form
     {
-        public string _expressions = "";
-        public string _numbers = "";
-        public string _result = "";
-        public string _operator = "";
+        private string _expressions;
+        private string _numbers;
+        private string _result;
+        private string _operator;
+
 
         public Form1()
         {
             InitializeComponent();
+            _expressions = "";
+            _numbers = "";
+            _result = "";
+            _operator = "";
         }
 
         #region methods
@@ -37,7 +36,8 @@ namespace WinformCalculator
                 _expressions = "";
                 _result = "";
                 Show();
-            } else
+            }
+            else
             {
                 if (_result == "")
                 {
@@ -145,15 +145,14 @@ namespace WinformCalculator
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            if (_expressions.Length != 0)
+            if (_numbers.Length != 0)
             {
                 _expressions = _expressions.Remove(_expressions.Count() - 1);
                 _numbers = _numbers.Remove(_numbers.Count() - 1);
             }
-            else
+            else if (_expressions.Length != 0)
             {
-                _expressions = "";
-                _numbers = "";
+                _expressions = _expressions.Remove(_expressions.Count() - 1);
             }
             Show();
         }
@@ -171,7 +170,8 @@ namespace WinformCalculator
             if (_expressions == "")
             {
                 MessageBox.Show("Invalid expression", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else 
+            }
+            else 
             {                
                 Calculate();
                 _expressions += "/";
