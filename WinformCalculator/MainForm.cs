@@ -1,73 +1,77 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace WinformCalculator
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        private string _expressions;
-        private string _numbers;
-        private string _result;
-        private string _operator;
+        private StringBuilder _expressions;
+        private StringBuilder _numbers;
+        private StringBuilder _result;
+        private StringBuilder _operator;
 
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
-            _expressions = "";
-            _numbers = "";
-            _result = "";
-            _operator = "";
+            _expressions = new StringBuilder();
+            _numbers = new StringBuilder();
+            _result = new StringBuilder();
+            _operator = new StringBuilder();
         }
 
         #region methods
         public new void Show()
         {
-            tbScreen.Text = _expressions + Environment.NewLine;
-            tbScreen.Text += _result;
+            tbScreen.Text = _expressions.ToString() + Environment.NewLine;
+            tbScreen.Text += _result.ToString();
         }
 
         public void Calculate()
         {
-            if (_numbers == "")
+            if (_numbers.Length == 0)
             {
                 MessageBox.Show("Invalid expression", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _expressions = "";
-                _result = "";
+                _expressions.Clear();
+                _result.Clear();
                 Show();
             }
             else
             {
-                if (_result == "")
+                if (_result.Length == 0)
                 {
-                    _result = _numbers;
+                    _result.Append(_numbers);
                 }
                 else
                 {
-                    double x = Convert.ToDouble(_result);
-                    double y = Convert.ToDouble(_numbers);
-                    if (_operator == "+")
+                    double x = Convert.ToDouble(_result.ToString());
+                    double y = Convert.ToDouble(_numbers.ToString());
+                    if (_operator.ToString() == "+")
                     {
-                        _result = (x + y).ToString();
+                        _result.Clear();
+                        _result.Append((x + y).ToString());
                     }
-                    else if (_operator == "-")
+                    else if (_operator.ToString() == "-")
                     {
-                        _result = (x - y).ToString();
+                        _result.Clear();
+                        _result.Append((x - y).ToString());
                     }
-                    else if (_operator == "*")
+                    else if (_operator.ToString() == "*")
                     {
-                        _result = (x * y).ToString();
+                        _result.Clear();
+                        _result.Append((x * y).ToString());
                     }
-                    else if (_operator == "/")
+                    else if (_operator.ToString() == "/")
                     {
-                        _result = (x / y).ToString();
+                        _result.Clear();
+                        _result.Append((x / y).ToString());
                     }
                     
                 }
-                _expressions = _result;
-                _numbers = "";
-                _operator = "";
+                _numbers.Clear();
+                _operator.Clear();
             }
         }
         #endregion
@@ -75,71 +79,71 @@ namespace WinformCalculator
         #region events
         private void Btn1_Click(object sender, EventArgs e)
         {
-            _expressions += "1";
-            _numbers += "1";
+            _expressions.Append("1");
+            _numbers.Append("1");
             Show();
         }
 
         private void Btn2_Click(object sender, EventArgs e)
         {
-            _expressions += "2";
-            _numbers += "2";
+            _expressions.Append("2");
+            _numbers.Append("2");
             Show();
         }
 
         private void Btn3_Click(object sender, EventArgs e)
         {
-            _expressions += "3";
-            _numbers += "3";
+            _expressions.Append("3");
+            _numbers.Append("3");
             Show();
         }
 
         private void Btn4_Click(object sender, EventArgs e)
         {
-            _expressions += "4";
-            _numbers += "4";
+            _expressions.Append("4");
+            _numbers.Append("4");
             Show();
         }
 
         private void Btn5_Click(object sender, EventArgs e)
         {
-            _expressions += "5";
-            _numbers += "5";
+            _expressions.Append("5");
+            _numbers.Append("5");
             Show();
         }
 
         private void Btn6_Click(object sender, EventArgs e)
         {
-            _expressions += "6";
-            _numbers += "6";
+            _expressions.Append("6");
+            _numbers.Append("6");
             Show();
         }
 
         private void Btn7_Click(object sender, EventArgs e)
         {
-            _expressions += "7";
-            _numbers += "7";
+            _expressions.Append("7");
+            _numbers.Append("7");
             Show();
         }
 
         private void Btn8_Click(object sender, EventArgs e)
         {
-            _expressions += "8";
-            _numbers += "8";
+            _expressions.Append("8");
+            _numbers.Append("8");
             Show();
         }
 
         private void Btn9_Click(object sender, EventArgs e)
         {
-            _expressions += "9";
-            _numbers += "9";
+            _expressions.Append("9");
+            _numbers.Append("9");
             Show();
         }
 
         private void Btn0_Click(object sender, EventArgs e)
         {
-            _expressions += "0";
-            _numbers += "0";
+            _expressions.Append("0");
+            _numbers.Append("0");
             Show();
         }
 
@@ -147,80 +151,88 @@ namespace WinformCalculator
         {
             if (_numbers.Length != 0)
             {
-                _expressions = _expressions.Remove(_expressions.Count() - 1);
-                _numbers = _numbers.Remove(_numbers.Count() - 1);
+                _expressions.Remove(_expressions.Length - 1, 1);
+                _numbers.Remove(_numbers.Length - 1, 1);
             }
             else if (_expressions.Length != 0)
             {
-                _expressions = _expressions.Remove(_expressions.Count() - 1);
+                _expressions.Remove(_expressions.Length - 1, 1);
             }
             Show();
         }
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            _expressions = "";
-            _numbers = "";
-            _result = "";
+            _expressions.Clear();
+            _numbers.Clear();
+            _result.Clear();
             Show();
         }
 
         private void BtnDiv_Click(object sender, EventArgs e)
         {
-            if (_expressions == "")
+            if (_expressions.Length == 0)
             {
                 MessageBox.Show("Invalid expression", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else 
             {                
                 Calculate();
-                _expressions += "/";
-                _operator = "/";
+                _expressions.Clear();
+                _expressions.Append(_result);
+                _expressions.Append("/");
+                _operator.Append("/");
                 Show();
             }
         }
 
         private void BtnMul_Click(object sender, EventArgs e)
         {
-            if (_expressions == "")
+            if (_expressions.Length == 0)
             {
                 MessageBox.Show("Invalid expression", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {                
                 Calculate();
-                _expressions += "*";
-                _operator = "*";
+                _expressions.Clear();
+                _expressions.Append(_result);
+                _expressions.Append("*");
+                _operator.Append("*");
                 Show();
             }
         }
 
         private void BtnSub_Click(object sender, EventArgs e)
         {
-            if (_expressions == "")
+            if (_expressions.Length == 0)
             {
                 MessageBox.Show("Invalid expression", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {                
                 Calculate();
-                _expressions += "-";
-                _operator = "-";
+                _expressions.Clear();
+                _expressions.Append(_result);
+                _expressions.Append("-");
+                _operator.Append("-");
                 Show();
             }
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            if (_expressions == "")
+            if (_expressions.Length == 0)
             {
                 MessageBox.Show("Invalid expression", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {                
                 Calculate();
-                _expressions += "+";
-                _operator = "+";
+                _expressions.Clear();
+                _expressions.Append(_result);
+                _expressions.Append("+");
+                _operator.Append("+");
                 Show();
             }
         }
@@ -228,9 +240,10 @@ namespace WinformCalculator
         private void BtnEqual_Click(object sender, EventArgs e)
         {
             Calculate();
-            _numbers = _result;
+            _numbers.Clear();
+            _numbers.Append(_result);
             Show();
-            _result = "";
+            _result.Clear();
         }
         #endregion
     }
